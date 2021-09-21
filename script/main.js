@@ -1,40 +1,31 @@
 
-window.addEventListener("load", ()=>{
+window.addEventListener("load", () => {
 
-const loader = document.querySelector(".loader");
+    const loader = document.querySelector(".loader");
 
 
-var delayInMilliseconds = 3000; //3 seconds
+    var delayInMilliseconds = 1000; //1 seconds
 
-setTimeout(function() {
+    setTimeout(function () {
+        loader.className += " hidden";
+    }, delayInMilliseconds);
     getAPOSRequest()
-    loader.className +=" hidden";
-}, delayInMilliseconds);
-    
+
 })
 
 
-async function getAPOSRequest(){
+async function getAPOSRequest() {
     let API_KEY = "HwSFSrrNRLPxXZPs4EcfG33eEuXbohTYqwGgIQIq";
     let response = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${API_KEY}&start_date=2021-09-07`)
     console.log(response)
-    if (response.status === 200){
-        console.log(new Date().getSeconds())
-        let data = await response.json();   
-        // if(data.length !== 0){
-        //     console.log("no data")
-        //     // document.getElementsByTagName("img").classList.add("img-skeleton")
-        // }
-        // else( console.log(data))
-       
-        const titletext = document.createElement("h3");
-        titletext.classList.add("title")
-        document.querySelector(".post").innerHTML += data.map(val =>{
-        
+    if (response.status === 200) {
+        let data = await response.json();
 
-            if (Object.keys(val).length !==0){
-               return(
-                `<div>
+
+        document.querySelector(".post").innerHTML += data.map(val =>
+
+
+            `<div>
                 <img src='${val.url}' alt="" class="banner-image">
             <div class="post-content">
                     <div class="title"> <b>Title:</b>${val.title}</div>
@@ -48,38 +39,28 @@ async function getAPOSRequest(){
             </div> 
                 
               </div>`
-              )
-            } else if(Object.keys(val).length ===0){
 
-                return(
-                `<div>
-                <img src='' alt="" class="img-skeleton">
-            
-            
-                
-              </div>`
-              )
-            }
-        
-          
-            
-        })
-        
+
+
+
+
+
+        )
+
     }
-    
-    else{
+
+    else {
         console.error("error here");
     }
-  
+
 }
 
-// togglelike.addEventListener("click", show )
 
-// function show() {
-//     togglelike.classList.toggle("like_click")
 
-//}
-
-function changeStyle(){
-    document.querySelector(".like").classList.toggle("like_click");
+function changeStyle() {
+    const allhearts = document.querySelectorAll(".like");
+    let i;
+    for (i = 0; i < allhearts.length; i++) {
+        allhearts[i].classList.toggle("like_click");
+    }
 }
